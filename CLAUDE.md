@@ -6,7 +6,7 @@
 
 本社の当番(事務所番・金庫番・掃除・夜間現場)予定作成アプリ。
 
-URL: https://kasuyakouta.github.io/kinkoban/
+URL: https://skgroup-dx.github.io/kinkoban/
 
 
 
