@@ -422,6 +422,15 @@ function runAutoAssign(nd,opts,skip){
     const allSet=offEx.length&&safeEx.length&&cleanEx.length;
     if(skip&&allSet)return; // スキップモードで全設定済みならパス
 
+    // 事務所番・金庫番・掃除で既存の担当者が食い違っている日（過去ルール時代のデータ等）は、
+    // どちらかを勝手に消してしまわないよう自動振り分けの対象外にし、手動確認を促す
+    const existing=[offEx,safeEx,cleanEx].filter(a=>a.length);
+    const conflict=existing.length>1&&!existing.every(a=>JSON.stringify(a)===JSON.stringify(existing[0]));
+    if(conflict){
+      alerts.push((d.getMonth()+1)+'/'+d.getDate()+'('+dayLbl(d)+') ※既存の担当が食い違っています。手動で確認してください');
+      return;
+    }
+
     // 既に誰かが設定されていればその人を使う（優先順位: 事務所番>金庫番>掃除）
     let chosen=offEx[0]||safeEx[0]||cleanEx[0]||null;
     if(!chosen){
